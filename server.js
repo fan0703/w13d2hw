@@ -1,32 +1,52 @@
-const express = require('express')
-const app = express()
-const port = 3000
-const jsxEngine = require('jsx-view-engine')
+const express = require("express");
+const app = express();
+const port = 3000;
+const jsxEngine = require("jsx-view-engine");
+const mongoose = require('mongoose')
+const dotenv = require("dotenv")
+const Captain = require('./models/logs')
 
-app.set('view engine', "jsx")
-app.engine("jsx", jsxEngine())
+app.set("view engine", "jsx");
+app.engine("jsx", jsxEngine());
 
-app.get('/', (req, res)=>{
-    res.send("Welcome to captains' log")
+dotenv.config()
+mongoose.connect(process.env.MONGO_URI)
+mongoose.connection.once("open", ()=>{
+    console.log("connected to mongo")
 })
-app.get('/logs', (req, res)=>{
-    res.send('captains')
+app.use(express.static('public'))
+app.use(express.urlencoded({extended: false}))
+// app.use(methodOverride('_method'))
+app.use((req, res, next) => {
+    console.log("I run for all routes")
+    next()
 })
+
+app.get("/", (req, res) => {
+  res.send("Welcome to captains' log");
+});
+app.get("/logs", (req, res) => {
+  res.send("captains");
+});
 //New
-app.get('/logs/new', (req, res)=>{
-    res.render('New')
-})
+app.get("/logs/new", (req, res) => {
+  res.render("New");
+});
 //Create
-app.post('/logs', (req, res)=>{
-    // if(req.body.shipIsBroken === "on"){
-    //     req.body.shipIsBroken = true
-    // }else{
-    //     req.body.shipIsBroken = false
-    // }
-res.send(req.body)
-})
+app.post("/logs", async (req, res) => {
+  try {
+    if (req.body.shipIsBroken === "on") {
+      req.body.shipIsBroken = true;
+    } else {
+      req.body.shipIsBroken = false;
+    }
+    await Captain.create(req.body);
+    res.redirect("/logs");
+  } catch (error) {
+    console.log(error);
+  }
+});
 
-
-app.listen(port,()=>{
-    console.log('listening')
-})
+app.listen(port, () => {
+  console.log("listening");
+});
