@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const captainsSchema = new mongoose.Schema({
+const captainLogsSchema = new mongoose.Schema({
     title:{
         type: String,
         required: true
@@ -12,5 +12,5 @@ const captainsSchema = new mongoose.Schema({
         type:Boolean,
     }
 })
-const Captain = mongoose.model("Captain", captainsSchema)
-module.exports = Captain
+const CaptainLogs = mongoose.model("CaptainLogs", captainLogsSchema)
+module.exports = CaptainLogs

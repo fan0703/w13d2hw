@@ -4,7 +4,7 @@ const port = 3000;
 const jsxEngine = require("jsx-view-engine");
 const mongoose = require('mongoose')
 const dotenv = require("dotenv")
-const Captain = require('./models/logs')
+const CaptainLogs = require('./models/logs')
 
 app.set("view engine", "jsx");
 app.engine("jsx", jsxEngine());
@@ -25,8 +25,14 @@ app.use((req, res, next) => {
 app.get("/", (req, res) => {
   res.send("Welcome to captains' log");
 });
-app.get("/logs", (req, res) => {
-  res.send("captains");
+
+//INDEX ROUTE
+app.get("/logs", async(req, res) => {
+    try{
+  res.render(Index);
+    }catch(error){
+        console.log(error)
+    }
 });
 //New
 app.get("/logs/new", (req, res) => {
@@ -40,7 +46,7 @@ app.post("/logs", async (req, res) => {
     } else {
       req.body.shipIsBroken = false;
     }
-    await Captain.create(req.body);
+    await CaptainLogs.create(req.body);
     res.redirect("/logs");
   } catch (error) {
     console.log(error);
