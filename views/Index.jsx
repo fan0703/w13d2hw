@@ -4,6 +4,7 @@ class Index extends React.Component{
         const captainLogs = this.props.captainLogs
         return(
             <>
+            <h1>Captain Log Index Page</h1>
             <nav>
                 <a href="/logs/new">Create a Log</a>
             </nav>
@@ -12,7 +13,7 @@ class Index extends React.Component{
                    this.props.captainLogs.map((captainLog, i)=>{
                     return(
                         <li key={i}>
-                            <a href={`/logs/{captainLog.id}`}>{captainLog.title}</a>
+                            <a href={`/logs/${captainLog.id}`}>{captainLog.title}</a>
                             {' '} entry from {captainLog.entry} <br/>
                             {captainLog.shipIsBroken?
                             'It is Broken':

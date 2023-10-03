@@ -29,7 +29,8 @@ app.get("/", (req, res) => {
 //INDEX ROUTE
 app.get("/logs", async(req, res) => {
     try{
-  res.render(Index);
+        const captainLogs = await CaptainLogs.find()
+  res.render('Index', {captainLogs: captainLogs});
     }catch(error){
         console.log(error)
     }
@@ -52,6 +53,15 @@ app.post("/logs", async (req, res) => {
     console.log(error);
   }
 });
+//show
+app.get('/logs/:id', async(req, res)=>{
+    try{
+        const captainLog = await CaptainLogs.findById(req.params.id)
+        res.render('Show')
+    }catch(error){
+        console.log(error)
+    }
+})
 
 app.listen(port, () => {
   console.log("listening");
