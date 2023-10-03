@@ -50,6 +50,21 @@ app.delete('/logs/:id', async(req, res)=>{
         console.error(error)
     }
 })
+//PUT
+app.put('/logs/:id', async(req, res)=>{
+    try{
+        if(req.body.shipIsBroken === 'on'){
+            req.body.shipIsBroken = true
+        }else{
+            req.body.shipIsBroken = false
+        }
+        await CaptainLogs.findByIdAndUpdate(req.params.id, req.body)
+        res.redirect(`/logs/${req.params.id}`)
+        
+    }catch(error){
+        console.log(error)
+    }
+})
 //Create
 app.post("/logs", async (req, res) => {
   try {
@@ -77,7 +92,7 @@ app.get('/logs/:id/edit', async(req, res)=>{
 app.get('/logs/:id', async(req, res)=>{
     try{
         const captainLog = await CaptainLogs.findById(req.params.id)
-        res.render('Show')
+        res.render('Show', {captainLog: captainLog})
     }catch(error){
         console.log(error)
     }

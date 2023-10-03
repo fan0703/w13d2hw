@@ -5,7 +5,7 @@ class Edit extends React.Component{
             <div>
             <h1>Edit Page</h1>
             {/* <form action={`/logs/${this.props.captainLog._id}?_method=PUT`} method="POST"></form> */}
-            <form>
+            <form action={`/logs/${this.props.captainLog._id}?_method='PUT`} method="POST">
           Title: <input type="text" name="title" defaultValue={this.props.captainLog.title}/><br/>
           Entry: <input type="text" name="entry"  defaultValue={this.props.captainLog.entry}/><br/>
          Is Ship Broken:
