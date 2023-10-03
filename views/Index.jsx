@@ -18,7 +18,12 @@ class Index extends React.Component{
                             {captainLog.shipIsBroken?
                             'It is Broken':
                             'It is not Broken'}
+                            <form action={`/logs/${captainLog._id}?_method=DELETE`} method="POST">
+                                <input type="submit" value="DELETE"/>
+                            </form>
+        
                         </li>
+                        
                     )
                    }) 
                 }

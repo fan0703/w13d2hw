@@ -4,6 +4,7 @@ const port = 3000;
 const jsxEngine = require("jsx-view-engine");
 const mongoose = require('mongoose')
 const dotenv = require("dotenv")
+const methodOverride = require('method-override')
 const CaptainLogs = require('./models/logs')
 
 app.set("view engine", "jsx");
@@ -17,6 +18,7 @@ mongoose.connection.once("open", ()=>{
 app.use(express.static('public'))
 app.use(express.urlencoded({extended: false}))
 // app.use(methodOverride('_method'))
+app.use(methodOverride('_method'))
 app.use((req, res, next) => {
     console.log("I run for all routes")
     next()
@@ -39,6 +41,15 @@ app.get("/logs", async(req, res) => {
 app.get("/logs/new", (req, res) => {
   res.render("New");
 });
+//delete
+app.delete('/logs/:id', async(req, res)=>{
+    try{
+        await CaptainLogs.findByIdAndRemove(req.params.id)
+        res.redirect('/logs')
+    }catch(error){
+        console.error(error)
+    }
+})
 //Create
 app.post("/logs", async (req, res) => {
   try {
